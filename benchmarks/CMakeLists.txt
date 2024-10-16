@@ -1,6 +1,6 @@
 FILE(GLOB_RECURSE ALL_BENCH_CPP *.cpp)
 
-#INCLUDE_DIRECTORIES(../experiments)
+INCLUDE_DIRECTORIES(../histograms)
 find_package(OpenMP)
 
 foreach(ONE_BENCH_CPP ${ALL_BENCH_CPP})
@@ -16,7 +16,7 @@ foreach(ONE_BENCH_CPP ${ALL_BENCH_CPP})
 
   TARGET_LINK_LIBRARIES(${TARGET_NAME}
     benchmark
-#    experiments
+    histograms
     ${DEPS}
   )
 

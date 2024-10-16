@@ -5,6 +5,8 @@
 #include <random>
 #include <thread>
 
+#include "sequential.h"
+
 static int* randomInput = nullptr;
 static const int MAXIMO_VALOR = 5;
 static const int NUMERO_ELEMENTOS = 100000000;
@@ -36,6 +38,16 @@ static void BM_secuencial(benchmark::State& state) {
     for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
       histograma[randomInput[idx] - 1]++;
     }
+    benchmark::DoNotOptimize(histograma);
+  }
+}
+
+static void BM_secuencial2(benchmark::State& state) {
+  Sequential histogramCalculator;
+
+  for(auto _ : state) {
+    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
+                                                    NUMERO_ELEMENTOS);
     benchmark::DoNotOptimize(histograma);
   }
 }
@@ -134,6 +146,7 @@ static void BM_openmp_atomic(benchmark::State& state) {
 static void BM_openmp_lock_guard(benchmark::State& state) {
   int histograma[MAXIMO_VALOR] = {0};
   std::mutex mtx;
+
   for(auto _ : state) {
 #pragma omp parallel for
     for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
@@ -146,6 +159,7 @@ static void BM_openmp_lock_guard(benchmark::State& state) {
 static void BM_openmp_lock_unlock(benchmark::State& state) {
   int histograma[MAXIMO_VALOR] = {0};
   std::mutex mtx;
+
   for(auto _ : state) {
 #pragma omp parallel for
     for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
@@ -158,7 +172,7 @@ static void BM_openmp_lock_unlock(benchmark::State& state) {
 
 static void BM_openmp_critical(benchmark::State& state) {
   int histograma[MAXIMO_VALOR] = {0};
-  std::mutex mtx;
+
   for(auto _ : state) {
 #pragma omp parallel for
     for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
@@ -170,7 +184,7 @@ static void BM_openmp_critical(benchmark::State& state) {
 
 static void BM_openmp_ompatomic(benchmark::State& state) {
   int histograma[MAXIMO_VALOR] = {0};
-  std::mutex mtx;
+
   for(auto _ : state) {
 #pragma omp parallel for
     for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
@@ -181,6 +195,7 @@ static void BM_openmp_ompatomic(benchmark::State& state) {
 }
 
 BENCHMARK(BM_secuencial)->UseRealTime()->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_secuencial2)->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_estandar)->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_estandar_reduction)->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_openmp_atomic)->UseRealTime()->Unit(benchmark::kMillisecond);
