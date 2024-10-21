@@ -90,7 +90,7 @@ void calcular_local_histograma(int* local_histograma, int inicio, int fin) {
   }
 }
 
-void historgrama_estandar_reduction() {
+void histograma_estandar_reduction() {
   int histograma[MAXIMO_VALOR] = {0};
   const int num_hilos = std::thread::hardware_concurrency();
   int local_histograma[num_hilos][MAXIMO_VALOR] = {0};
@@ -109,7 +109,7 @@ void historgrama_estandar_reduction() {
   }
 
   for(int idx = 0; idx < num_hilos; idx++) {
-    for(int idy = 0; idy < num_hilos; idy++) {
+    for(int idy = 0; idy < MAXIMO_VALOR; idy++) {
       histograma[idy] += local_histograma[idx][idy];
     }
   }
@@ -117,7 +117,7 @@ void historgrama_estandar_reduction() {
 
 static void BM_estandar_reduction(benchmark::State& state) {
   for(auto _ : state) {
-    historgrama_estandar_reduction();
+    histograma_estandar_reduction();
   }
 }
 
