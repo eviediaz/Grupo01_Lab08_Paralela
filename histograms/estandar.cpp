@@ -21,7 +21,7 @@ std::vector<int> Estandar::calculate(const int* input, const int buckets,
     int inicio = chunk * idx;
     int fin = (idx == num_hilos - 1) ? NUMERO_ELEMENTOS : idx * chunk;
     hilos[idx] =
-        std::thread(calcular_histograma, std::ref(histograma), inicio, fin);
+        std::thread(calcular_histograma, histograma, inicio, fin);
   }
 
   for(auto& hilo : hilos) {
