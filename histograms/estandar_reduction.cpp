@@ -1,4 +1,5 @@
 #include "estandar_reduction.h"
+#pragma once
 #include <mutex>
 #include <thread>
 

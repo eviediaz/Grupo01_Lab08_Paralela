@@ -1,6 +1,7 @@
 #include "estandar.h"
+#pragma once
 #include <mutex>
-//#include <thread>
+#include <thread>
 
 std::mutex mtx_estandar;
 void calcular_histograma(std::vector<int>& histograma, int inicio, int fin, int* random_input) {
