@@ -3,7 +3,7 @@
 #include <thread>
 
 std::mutex mtx_estandar;
-void calcular_histograma(int* histograma, int inicio, int fin) {
+void calcular_histograma(std::vector<int>& histograma, int inicio, int fin) {
   for(int idx = inicio; idx < fin; idx++) {
     std::lock_guard<std::mutex> lock(mtx_estandar);
     histograma[randomInput[idx] - 1]++;
@@ -12,7 +12,7 @@ void calcular_histograma(int* histograma, int inicio, int fin) {
 
 std::vector<int> Estandar::calculate(const int* input, const int buckets,
                                      const int input_size) {
-  int histograma[MAXIMO_VALOR] = {0};
+  std::vector<int> histograma(MAXIMO_VALOR, 0);
   const int num_hilos = std::thread::hardware_concurrency();
   std::vector<std::thread> hilos(num_hilos);
   int chunk = NUMERO_ELEMENTOS / num_hilos;
@@ -21,7 +21,7 @@ std::vector<int> Estandar::calculate(const int* input, const int buckets,
     int inicio = chunk * idx;
     int fin = (idx == num_hilos - 1) ? NUMERO_ELEMENTOS : idx * chunk;
     hilos[idx] =
-        std::thread(calcular_histograma, histograma, inicio, fin);
+        std::thread(calcular_histograma, std::ref(histograma), inicio, fin);
   }
 
   for(auto& hilo : hilos) {
