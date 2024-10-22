@@ -11,6 +11,8 @@ static int* randomInput = nullptr;
 static const int MAXIMO_VALOR = 5;
 static const int NUMERO_ELEMENTOS = 100000000;
 
+
+// Funciones de inicializacion
 void inicializa() {
   std::random_device rd;
   std::mt19937 gen(rd());
@@ -31,23 +33,13 @@ void finaliza() {
   }
 }
 
+
+// -- FUNCIONES BENCHMARK --
 static void BM_secuencial(benchmark::State& state) {
-  int histograma[MAXIMO_VALOR] = {0};
-
-  for(auto _ : state) {
-    for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
-      histograma[randomInput[idx] - 1]++;
-    }
-    benchmark::DoNotOptimize(histograma);
-  }
-}
-
-static void BM_secuencial2(benchmark::State& state) {
   Sequential histogramCalculator;
 
   for(auto _ : state) {
-    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
-                                                    NUMERO_ELEMENTOS);
+    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
     benchmark::DoNotOptimize(histograma);
   }
 }
@@ -194,8 +186,8 @@ static void BM_openmp_ompatomic(benchmark::State& state) {
   }
 }
 
+// Agregar funciones a BenchMark
 BENCHMARK(BM_secuencial)->UseRealTime()->Unit(benchmark::kMillisecond);
-BENCHMARK(BM_secuencial2)->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_estandar)->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_estandar_reduction)->UseRealTime()->Unit(benchmark::kMillisecond);
 BENCHMARK(BM_openmp_atomic)->UseRealTime()->Unit(benchmark::kMillisecond);
