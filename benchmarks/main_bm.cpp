@@ -6,10 +6,11 @@
 #include <thread>
 
 #include "sequential.h"
+#include "estandar.h"
 
-static int* randomInput = nullptr;
-static const int MAXIMO_VALOR = 5;
-static const int NUMERO_ELEMENTOS = 100000000;
+int* randomInput = nullptr;
+const int MAXIMO_VALOR = 5;
+const int NUMERO_ELEMENTOS = 100000000;
 
 
 // Funciones de inicializacion
@@ -44,35 +45,11 @@ static void BM_secuencial(benchmark::State& state) {
   }
 }
 
-std::mutex mtx_estandar;
-void calcular_histograma(int* histograma, int inicio, int fin) {
-  for(int idx = inicio; idx < fin; idx++) {
-    std::lock_guard<std::mutex> lock(mtx_estandar);
-    histograma[randomInput[idx] - 1]++;
-  }
-}
-
-void histograma_estandar() {
-  int histograma[MAXIMO_VALOR] = {0};
-  const int num_hilos = std::thread::hardware_concurrency();
-  std::vector<std::thread> hilos(num_hilos);
-  int chunk = NUMERO_ELEMENTOS / num_hilos;
-
-  for(int idx = 0; idx < num_hilos; idx++) {
-    int inicio = chunk * idx;
-    int fin = (idx == num_hilos - 1) ? NUMERO_ELEMENTOS : idx * chunk;
-    hilos[idx] =
-        std::thread(calcular_histograma, std::ref(histograma), inicio, fin);
-  }
-
-  for(auto& hilo : hilos) {
-    hilo.join();
-  }
-}
-
 static void BM_estandar(benchmark::State& state) {
+  Estandar calculadoraHistogramaEstandar;
+  
   for(auto _ : state) {
-    histograma_estandar();
+    auto histograma = calculadoraHistogramaEstandar.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
   }
 }
 
