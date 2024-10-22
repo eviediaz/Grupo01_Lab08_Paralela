@@ -1,6 +1,5 @@
 #include "estandar_reduction.h"
 #include<mutex>
-#include<thread>
 
 void calcular_local_histograma(int* local_histograma, int inicio, int fin, int* randomInput) {
   for(int idx = inicio; idx < fin; idx++) {
