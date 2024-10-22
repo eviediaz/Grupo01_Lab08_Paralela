@@ -3,7 +3,7 @@
 #include <thread>
 
 std::mutex mtx_estandar;
-void calcular_histograma(std::vector<int>& histograma, int inicio, int fin, int* random_input) {
+void calcular_histograma(std::vector<int>& histograma, int inicio, int fin, const int* random_input) {
   for(int idx = inicio; idx < fin; idx++) {
     std::lock_guard<std::mutex> lock(mtx_estandar);
     histograma[random_input[idx] - 1]++;
