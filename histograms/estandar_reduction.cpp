@@ -13,7 +13,7 @@ std::vector<int> Estandar_Reduction::calculate(const int* random_input,
                                                const int numero_elementos) {
   std::vector<int> histograma(maximo_valor, 0);
   const int num_hilos = std::thread::hardware_concurrency();
-  int local_histograma[num_hilos][maximo_valor] = {0};
+  std::vector<std::vector<int>> local_histograma(num_hilos, std::vector<int>(maximo_valor, 0));
   std::vector<std::thread> hilos(num_hilos);
   int chunk = numero_elementos / num_hilos;
 
