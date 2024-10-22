@@ -2,7 +2,7 @@
 #include <mutex>
 #include <thread>
 
-void calcular_local_histograma(std::vector<int>& local_histograma, int inicio, int fin, int* randomInput) {
+void calcular_local_histograma(std::vector<int>& local_histograma, int inicio, int fin, const int* randomInput) {
   for(int idx = inicio; idx < fin; idx++) {
     local_histograma[randomInput[idx] - 1]++;
   }
