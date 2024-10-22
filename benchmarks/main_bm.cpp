@@ -7,10 +7,11 @@
 
 #include "sequential.h"
 #include "estandar.h"
+#include "estandar_reduction.h"
 
-int* randomInput = nullptr;
-const int MAXIMO_VALOR = 5;
-const int NUMERO_ELEMENTOS = 100000000;
+static int* randomInput = nullptr;
+static const int MAXIMO_VALOR = 5;
+static const int NUMERO_ELEMENTOS = 100000000;
 
 
 // Funciones de inicializacion
@@ -46,47 +47,17 @@ static void BM_secuencial(benchmark::State& state) {
 }
 
 static void BM_estandar(benchmark::State& state) {
-  Estandar calculadoraHistogramaEstandar;
+  Estandar calculadoraHistograma_Estandar;
   
   for(auto _ : state) {
-    auto histograma = calculadoraHistogramaEstandar.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
-  }
-}
-
-void calcular_local_histograma(int* local_histograma, int inicio, int fin) {
-  for(int idx = inicio; idx < fin; idx++) {
-    local_histograma[randomInput[idx] - 1]++;
-  }
-}
-
-void histograma_estandar_reduction() {
-  int histograma[MAXIMO_VALOR] = {0};
-  const int num_hilos = std::thread::hardware_concurrency();
-  int local_histograma[num_hilos][MAXIMO_VALOR] = {0};
-  std::vector<std::thread> hilos(num_hilos);
-  int chunk = NUMERO_ELEMENTOS / num_hilos;
-
-  for(int idx = 0; idx < num_hilos; idx++) {
-    int inicio = chunk * idx;
-    int fin = (idx == num_hilos - 1) ? NUMERO_ELEMENTOS : idx * chunk;
-    hilos[idx] = std::thread(calcular_local_histograma,
-                             std::ref(local_histograma[idx]), inicio, fin);
-  }
-
-  for(auto& hilo : hilos) {
-    hilo.join();
-  }
-
-  for(int idx = 0; idx < num_hilos; idx++) {
-    for(int idy = 0; idy < MAXIMO_VALOR; idy++) {
-      histograma[idy] += local_histograma[idx][idy];
-    }
+    auto histograma = calculadoraHistograma_Estandar.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
   }
 }
 
 static void BM_estandar_reduction(benchmark::State& state) {
+  Estandar_Reduction calculadoraHistograma_EstandarReduction;
   for(auto _ : state) {
-    histograma_estandar_reduction();
+    calculadoraHistograma_EstandarReduction.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
   }
 }
 

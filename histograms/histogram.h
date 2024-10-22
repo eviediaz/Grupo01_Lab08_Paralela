@@ -3,10 +3,6 @@
 
 #include <vector>
 
-extern int* randomInput;
-extern const int MAXIMO_VALOR;
-extern const int NUMERO_ELEMENTOS;
-
 class Histogram {
  public:
   virtual std::vector<int> calculate(const int*, const int, const int) = 0;
