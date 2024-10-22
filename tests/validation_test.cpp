@@ -4,9 +4,9 @@
 
 #include "sequential.h"
 
-static int* randomInput = nullptr;
-static const int MAXIMO_VALOR = 5;
-static const int NUMERO_ELEMENTOS = 100000000;
+int* randomInput = nullptr;
+const int MAXIMO_VALOR = 5;
+const int NUMERO_ELEMENTOS = 100000000;
 
 void inicializa() {
   std::random_device rd;
