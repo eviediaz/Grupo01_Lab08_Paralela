@@ -1,9 +1,8 @@
 #include "estandar_reduction.h"
-#pragma once
 #include <mutex>
 #include <thread>
 
-void calcular_local_histograma(int* local_histograma, int inicio, int fin, int* randomInput) {
+void calcular_local_histograma(std::vector<int>& local_histograma, int inicio, int fin, int* randomInput) {
   for(int idx = inicio; idx < fin; idx++) {
     local_histograma[randomInput[idx] - 1]++;
   }
@@ -22,7 +21,7 @@ std::vector<int> Estandar_Reduction::calculate(const int* random_input,
     int inicio = chunk * idx;
     int fin = (idx == num_hilos - 1) ? numero_elementos : idx * chunk;
     hilos[idx] = std::thread(calcular_local_histograma,
-                             std::ref(local_histograma[idx]), inicio, fin, random_input);
+                             std::ref(local_histograma.at(idx)), inicio, fin, random_input);
   }
 
   for(auto& hilo : hilos) {

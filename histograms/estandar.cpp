@@ -1,5 +1,4 @@
 #include "estandar.h"
-#pragma once
 #include <mutex>
 #include <thread>
 
