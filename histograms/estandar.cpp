@@ -1,4 +1,6 @@
 #include "estandar.h"
+#include <mutex>
+#include <thread>
 
 std::mutex mtx_estandar;
 void calcular_histograma(int* histograma, int inicio, int fin) {
