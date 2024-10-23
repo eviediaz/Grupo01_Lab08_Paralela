@@ -10,6 +10,7 @@
 #include "estandar_reduction.h"
 #include "openmp_reduction.h"
 #include "openmp_atomic.h"
+#include "openmp_lockGuard.h"
 
 static int* randomInput = nullptr;
 static const int MAXIMO_VALOR = 5;
@@ -83,15 +84,11 @@ static void BM_openmp_atomic(benchmark::State& state) {
 }
 
 static void BM_openmp_lock_guard(benchmark::State& state) {
-  int histograma[MAXIMO_VALOR] = {0};
-  std::mutex mtx;
+  OpenmpLockGuard calculadoraHistograma_OpenMPLockGuard;
 
-  for(auto _ : state) {
-#pragma omp parallel for
-    for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
-      std::lock_guard<std::mutex> lock(mtx);
-      histograma[randomInput[idx] - 1]++;
-    }
+  for (auto _ : state) {
+    auto histograma = calculadoraHistograma_OpenMPLockGuard.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
+    benchmark::DoNotOptimize(histograma);
   }
 }
 

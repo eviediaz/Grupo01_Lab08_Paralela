@@ -1,5 +1,4 @@
 #include "estandar_reduction.h"
-#include <mutex>
 #include <thread>
 
 void calcular_local_histograma(std::vector<int>& local_histograma, int inicio, int fin, const int* randomInput) {
