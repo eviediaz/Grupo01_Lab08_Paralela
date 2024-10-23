@@ -8,4 +8,6 @@ std::vector<int> OpenmpReduction::calculate(const int* random_input,
   for(int idx = 0; idx < numero_elementos; idx++) {
     histograma[random_input[idx] - 1]++;
   }
+
+  return std::vector<int>() ;
 }

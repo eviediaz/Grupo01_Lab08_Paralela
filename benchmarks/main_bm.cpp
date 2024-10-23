@@ -9,6 +9,7 @@
 #include "estandar.h"
 #include "estandar_reduction.h"
 #include "openmp_reduction.h"
+#include "openmp_atomic.h"
 
 static int* randomInput = nullptr;
 static const int MAXIMO_VALOR = 5;
@@ -73,13 +74,11 @@ static void BM_openmp_reduction(benchmark::State& state) {
 }
 
 static void BM_openmp_atomic(benchmark::State& state) {
-  std::atomic<int> histograma[MAXIMO_VALOR] = {};  // default
-
-  for(auto _ : state) {
-#pragma omp parallel for
-    for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
-      histograma[randomInput[idx] - 1]++;
-    }
+  OpenmpAtomic calculadoraHistograma_OpenMPAtomic;
+  
+  for (auto _ : state) {
+    auto histograma = calculadoraHistograma_OpenMPAtomic.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
+    benchmark::DoNotOptimize(histograma);
   }
 }
 
