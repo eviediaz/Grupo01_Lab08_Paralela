@@ -8,6 +8,7 @@
 #include "sequential.h"
 #include "estandar.h"
 #include "estandar_reduction.h"
+#include "openmp_reduction.h"
 
 static int* randomInput = nullptr;
 static const int MAXIMO_VALOR = 5;
@@ -62,13 +63,9 @@ static void BM_estandar_reduction(benchmark::State& state) {
 }
 
 static void BM_openmp_reduction(benchmark::State& state) {
-  int histograma[MAXIMO_VALOR] = {0};
-
+  OpenmpReduction calculadoraHistograma_OpenMPReduction;
   for(auto _ : state) {
-#pragma omp parallel for reduction(+ : histograma[ : MAXIMO_VALOR])
-    for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
-      histograma[randomInput[idx] - 1]++;
-    }
+    calculadoraHistograma_OpenMPReduction.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
   }
 }
 
