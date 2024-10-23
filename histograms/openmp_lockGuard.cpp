@@ -2,10 +2,10 @@
 
 #include <mutex>
 
-std::mutex mtx;
 std::vector<int> OpenmpLockGuard::calculate(const int* random_input,
                                             const int maximo_valor,
                                             const int numero_elementos) {
+  std::mutex mtx;
   std::vector<int> histograma(maximo_valor, 0);
   
 #pragma omp parallel for
