@@ -52,20 +52,23 @@ static void BM_estandar(benchmark::State& state) {
   
   for(auto _ : state) {
     auto histograma = calculadoraHistograma_Estandar.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
+    benchmark::DoNotOptimize(histograma);
   }
 }
 
 static void BM_estandar_reduction(benchmark::State& state) {
   Estandar_Reduction calculadoraHistograma_EstandarReduction;
   for(auto _ : state) {
-    calculadoraHistograma_EstandarReduction.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
+    auto histograma = calculadoraHistograma_EstandarReduction.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
+    benchmark::DoNotOptimize(histograma);
   }
 }
 
 static void BM_openmp_reduction(benchmark::State& state) {
   OpenmpReduction calculadoraHistograma_OpenMPReduction;
   for(auto _ : state) {
-    calculadoraHistograma_OpenMPReduction.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
+    auto histograma = calculadoraHistograma_OpenMPReduction.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
+    benchmark::DoNotOptimize(histograma);
   }
 }
 
