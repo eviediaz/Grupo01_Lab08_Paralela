@@ -16,7 +16,7 @@ std::vector<int> OpenmpAtomic::calculate(const int* random_input,
   
   std::vector<int> resultado(maximo_valor);
   for (int i = 0; i < maximo_valor; ++i) {
-      resultado[i] = histograma[i].load(); // Cargar el valor atómico
+      resultado[i] = histograma[i].load(); // Cargar el valor normal
   }
 
   return resultado;
