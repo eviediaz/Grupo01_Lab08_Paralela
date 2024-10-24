@@ -12,5 +12,5 @@ std::vector<int> Openmp_OmpAtomic::calculate(const int* random_input,
         histograma[random_input[idx] - 1]++;
     }
 
-  return std::vector<int>();
+  return histograma;
 }
