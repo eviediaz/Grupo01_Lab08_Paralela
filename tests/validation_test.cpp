@@ -49,7 +49,7 @@ TEST(SequentialTest, pruebaOK) {
 TEST(EstandarTest, pruebaOK1) {
    Estandar histograma_estandar;
    auto histograma_paralelo = histograma_estandar.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
-  std::cout << "numero elementos" << histograma_paralelo.size() << std::endl;
+  
   int acum = 0;
   for(auto puntuacion : histograma_paralelo) acum += puntuacion;
   EXPECT_EQ(acum, NUMERO_ELEMENTOS);

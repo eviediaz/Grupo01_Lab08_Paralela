@@ -19,7 +19,7 @@ std::vector<int> Estandar::calculate(const int* random_input, const int maximo_v
 
   for(int idx = 0; idx < num_hilos; idx++) {
     int inicio = chunk * idx;
-    int fin = (idx == num_hilos - 1) ? numero_elementos : idx * chunk;
+    int fin = (idx == num_hilos - 1) ? numero_elementos : (idx + 1) * chunk;
     hilos[idx] =
         std::thread(calcular_histograma, std::ref(histograma), inicio, fin, random_input);
   }
