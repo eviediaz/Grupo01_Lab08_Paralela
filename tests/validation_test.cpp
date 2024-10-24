@@ -15,7 +15,7 @@
 static int* randomInput = nullptr;
 static const int MAXIMO_VALOR = 5;
 static const int NUMERO_ELEMENTOS = 100000000;
-auto histograma;
+std::vector<int> histograma;
 
 void inicializa() {
   std::random_device rd;
