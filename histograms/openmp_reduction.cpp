@@ -9,5 +9,10 @@ std::vector<int> OpenmpReduction::calculate(const int* random_input,
     histograma[random_input[idx] - 1]++;
   }
 
-  return std::vector<int>(maximo_valor, 0) ;
+  // Convertir el histograma array a un vector normal
+  std::vector<int> resultado(maximo_valor);
+  for (int i = 0; i < maximo_valor; ++i) {
+      resultado[i] = histograma[i]; // Cargar el valor atómico
+  }
+  return resultado;
 }
