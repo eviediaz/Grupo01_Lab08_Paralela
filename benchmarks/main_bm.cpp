@@ -12,6 +12,8 @@
 #include "openmp_atomic.h"
 #include "openmp_lockGuard.h"
 #include "openmp_lockUnlock.h"
+#include "openmp_ompatomic.h"
+#include "openmp_critical.h"
 
 static int* randomInput = nullptr;
 static const int MAXIMO_VALOR = 5;
@@ -103,26 +105,20 @@ static void BM_openmp_lock_unlock(benchmark::State& state) {
 }
 
 static void BM_openmp_critical(benchmark::State& state) {
-  int histograma[MAXIMO_VALOR] = {0};
-
-  for(auto _ : state) {
-#pragma omp parallel for
-    for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
-#pragma omp critical
-      histograma[randomInput[idx] - 1]++;
-    }
+  Openmp_Critical calculadoraHistograma_Critical;
+  
+  for (auto _ : state) {
+    auto histograma = calculadoraHistograma_Critical.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
+    benchmark::DoNotOptimize(histograma);
   }
 }
 
 static void BM_openmp_ompatomic(benchmark::State& state) {
-  int histograma[MAXIMO_VALOR] = {0};
-
-  for(auto _ : state) {
-#pragma omp parallel for
-    for(int idx = 0; idx < NUMERO_ELEMENTOS; idx++) {
-#pragma omp atomic
-      histograma[randomInput[idx] - 1]++;
-    }
+  Openmp_OmpAtomic calculadoraHistograma_OmpAtomic;
+  
+  for (auto _ : state) {
+    auto histograma = calculadoraHistograma_OmpAtomic.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
+    benchmark::DoNotOptimize(histograma);
   }
 }
 
