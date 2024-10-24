@@ -15,6 +15,7 @@
 static int* randomInput = nullptr;
 static const int MAXIMO_VALOR = 5;
 static const int NUMERO_ELEMENTOS = 100000000;
+auto histograma;
 
 void inicializa() {
   std::random_device rd;
@@ -38,10 +39,8 @@ void finaliza() {
 
 TEST(SequentialTest, pruebaOK) {
   Sequential histogramCalculator;
-  
-  auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
+  histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
                                                   NUMERO_ELEMENTOS);
-
   int acum = 0;
   for(auto puntuacion : histograma) acum += puntuacion;
   EXPECT_EQ(acum, NUMERO_ELEMENTOS);
@@ -57,9 +56,6 @@ TEST(EstandarTest_reduct, pruebaOK2) {
 }
 
 TEST(Estandar_TEST, prueba1) {
-    Sequential histogramCalculator;
-    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
-                                                  NUMERO_ELEMENTOS);
     Estandar histograma_estandar;
     auto histograma_paralelo = histograma_estandar.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
 
@@ -71,9 +67,6 @@ TEST(Estandar_TEST, prueba1) {
 }
 
 TEST(Estandar_Reduction_TEST, prueba2) {
-    Sequential histogramCalculator;
-    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
-                                                  NUMERO_ELEMENTOS);
     Estandar_Reduction histograma_estandar_reduction;
     auto histograma_paralelo = histograma_estandar_reduction.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
 
@@ -85,9 +78,6 @@ TEST(Estandar_Reduction_TEST, prueba2) {
 }
 
 TEST(OPENMP_LOCKGUARD_TEST, prueba3) {
-    Sequential histogramCalculator;
-    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
-                                                  NUMERO_ELEMENTOS);
     OpenmpLockGuard histograma_OpenmpLockGuard;
     auto histograma_paralelo = histograma_OpenmpLockGuard.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
 
@@ -98,9 +88,6 @@ TEST(OPENMP_LOCKGUARD_TEST, prueba3) {
 }
 
 TEST(OPENMP_LOCKUNLOCK_TEST, prueba4) {
-    Sequential histogramCalculator;
-    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
-                                                  NUMERO_ELEMENTOS);
     OpenmpLockUnlock histograma_OpenmpLockUnlock;
     auto histograma_paralelo = histograma_OpenmpLockUnlock.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
 
@@ -111,9 +98,6 @@ TEST(OPENMP_LOCKUNLOCK_TEST, prueba4) {
 }
 
 TEST(CRITICAL_TEST, prueba5) {
-    Sequential histogramCalculator;
-    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
-                                                  NUMERO_ELEMENTOS);
     Openmp_Critical histograma_Openmp_Critical;
     auto histograma_paralelo = histograma_Openmp_Critical.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
 
@@ -123,9 +107,6 @@ TEST(CRITICAL_TEST, prueba5) {
     }
 }
 TEST(OPENMP_OPMATOMIC_TEST, prueba6) {
-    Sequential histogramCalculator;
-    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
-                                                  NUMERO_ELEMENTOS);
     Openmp_OmpAtomic histograma_Openmp_OmpAtomic;
     auto histograma_paralelo = histograma_Openmp_OmpAtomic.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
 
@@ -135,9 +116,6 @@ TEST(OPENMP_OPMATOMIC_TEST, prueba6) {
     }
 }
 TEST(OPENMP_ATOMIC_TEST, prueba7) {
-    Sequential histogramCalculator;
-    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
-                                                  NUMERO_ELEMENTOS);
     OpenmpAtomic histograma_openMP_Atomic;
     auto histograma_paralelo = histograma_openMP_Atomic.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
 
@@ -147,9 +125,6 @@ TEST(OPENMP_ATOMIC_TEST, prueba7) {
     }
 }
 TEST(REDUCTION_TEST, prueba8) {
-    Sequential histogramCalculator;
-    auto histograma = histogramCalculator.calculate(randomInput, MAXIMO_VALOR,
-                                                  NUMERO_ELEMENTOS);
     OpenmpReduction histograma_OpenmpReduction;
     auto histograma_paralelo = histograma_OpenmpReduction.calculate(randomInput, MAXIMO_VALOR, NUMERO_ELEMENTOS);
 
