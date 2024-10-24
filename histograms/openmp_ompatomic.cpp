@@ -1,7 +1,7 @@
 #include "openmp_ompatomic.h"
 #include <thread>
 
-std::vector<int> OpenmpAtomic::calculate(const int* random_input,
+std::vector<int> Openmp_OmpAtomic::calculate(const int* random_input,
                                          const int maximo_valor,
                                          const int numero_elementos) {
     std::vector<int> histograma(maximo_valor, 0);
