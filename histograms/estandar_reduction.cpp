@@ -18,7 +18,7 @@ std::vector<int> Estandar_Reduction::calculate(const int* random_input,
 
   for(int idx = 0; idx < num_hilos; idx++) {
     int inicio = chunk * idx;
-    int fin = (idx == num_hilos - 1) ? numero_elementos : idx * chunk;
+    int fin = (idx == num_hilos - 1) ? numero_elementos : (idx + 1) * chunk;
     hilos[idx] = std::thread(calcular_local_histograma,
                              std::ref(local_histograma.at(idx)), inicio, fin, random_input);
   }

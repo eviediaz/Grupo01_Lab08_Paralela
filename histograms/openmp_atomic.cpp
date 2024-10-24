@@ -13,5 +13,5 @@ std::vector<int> OpenmpAtomic::calculate(const int* random_input,
     histograma[random_input[idx] - 1]++;
   }
 
-  return std::vector<int>();
+  return std::vector<int>(maximo_valor, 0);
 }
